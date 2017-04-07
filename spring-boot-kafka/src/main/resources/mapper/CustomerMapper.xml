@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.linuxsogood.demo.mapper.CustomerMapper">
+  <resultMap id="BaseResultMap" type="org.linuxsogood.demo.model.Customer">
+    <id column="CUSTOMER_ID" jdbcType="NUMERIC" property="customerId" />
+    <result column="CUSTOMER_CODE" jdbcType="NVARCHAR" property="customerCode" />
+    <result column="CUSTOMER_NAME" jdbcType="NVARCHAR" property="customerName" />
+    <result column="CUSTOMER_AID" jdbcType="NVARCHAR" property="customerAid" />
+    <result column="CUSTOMER_OLD_CODE" jdbcType="NVARCHAR" property="customerOldCode" />
+    <result column="CUSTOMER_DESCRIBE" jdbcType="NVARCHAR" property="customerDescribe" />
+    <result column="CUSTOMER_SORT_ID" jdbcType="NUMERIC" property="customerSortId" />
+    <result column="CUSTOMER_GRADE_ID" jdbcType="NUMERIC" property="customerGradeId" />
+    <result column="CUSTOMER_TYPE_CODE" jdbcType="NVARCHAR" property="customerTypeCode" />
+    <result column="CUSTOMER_TYPE_ID" jdbcType="NUMERIC" property="customerTypeId" />
+    <result column="CUSTOMER_STATUS" jdbcType="NVARCHAR" property="customerStatus" />
+    <result column="PROVINCE_CODE" jdbcType="NVARCHAR" property="provinceCode" />
+    <result column="PROVINCE_NAME" jdbcType="NVARCHAR" property="provinceName" />
+    <result column="CITY_CODE" jdbcType="NVARCHAR" property="cityCode" />
+    <result column="CITY_NAME" jdbcType="NVARCHAR" property="cityName" />
+    <result column="AREA_CODE" jdbcType="NVARCHAR" property="areaCode" />
+    <result column="AREA_NAME" jdbcType="NVARCHAR" property="areaName" />
+    <result column="CUSTOMER_ADDRESS" jdbcType="NVARCHAR" property="customerAddress" />
+    <result column="CUSTOMER_LINKMAN" jdbcType="NVARCHAR" property="customerLinkman" />
+    <result column="LINKMAN_TEL" jdbcType="NVARCHAR" property="linkmanTel" />
+    <result column="LINKMAN_MOBILE" jdbcType="NVARCHAR" property="linkmanMobile" />
+    <result column="LINKMAN_FAX" jdbcType="NVARCHAR" property="linkmanFax" />
+    <result column="LINKMAN_EMAIL" jdbcType="NVARCHAR" property="linkmanEmail" />
+    <result column="CUSTOMER_IM" jdbcType="NVARCHAR" property="customerIm" />
+    <result column="BILL_CYCLE_ID" jdbcType="NUMERIC" property="billCycleId" />
+    <result column="BILL_CYCLE_CODE" jdbcType="NVARCHAR" property="billCycleCode" />
+    <result column="PAYMENT_DAY" jdbcType="INTEGER" property="paymentDay" />
+    <result column="CUSTOMER_IS_ADVANCE" jdbcType="NVARCHAR" property="customerIsAdvance" />
+    <result column="ADVANCE_PAYMENT" jdbcType="NUMERIC" property="advancePayment" />
+    <result column="ANTECEDENT_MONEY" jdbcType="NUMERIC" property="antecedentMoney" />
+    <result column="KINGDEE_INTERFACE" jdbcType="NVARCHAR" property="kingdeeInterface" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CUSTOMER_ID, CUSTOMER_CODE, CUSTOMER_NAME, CUSTOMER_AID, CUSTOMER_OLD_CODE, CUSTOMER_DESCRIBE, 
+    CUSTOMER_SORT_ID, CUSTOMER_GRADE_ID, CUSTOMER_TYPE_CODE, CUSTOMER_TYPE_ID, CUSTOMER_STATUS, 
+    PROVINCE_CODE, PROVINCE_NAME, CITY_CODE, CITY_NAME, AREA_CODE, AREA_NAME, CUSTOMER_ADDRESS, 
+    CUSTOMER_LINKMAN, LINKMAN_TEL, LINKMAN_MOBILE, LINKMAN_FAX, LINKMAN_EMAIL, CUSTOMER_IM, 
+    BILL_CYCLE_ID, BILL_CYCLE_CODE, PAYMENT_DAY, CUSTOMER_IS_ADVANCE, ADVANCE_PAYMENT, 
+    ANTECEDENT_MONEY, KINGDEE_INTERFACE, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" parameterType="org.linuxsogood.demo.model.CustomerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TF_SSS_CUSTOMER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TF_SSS_CUSTOMER
+    where CUSTOMER_ID = #{customerId,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from TF_SSS_CUSTOMER
+    where CUSTOMER_ID = #{customerId,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.linuxsogood.demo.model.CustomerExample">
+    delete from TF_SSS_CUSTOMER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.linuxsogood.demo.model.Customer">
+    insert into TF_SSS_CUSTOMER (CUSTOMER_ID, CUSTOMER_CODE, CUSTOMER_NAME, 
+      CUSTOMER_AID, CUSTOMER_OLD_CODE, CUSTOMER_DESCRIBE, 
+      CUSTOMER_SORT_ID, CUSTOMER_GRADE_ID, CUSTOMER_TYPE_CODE, 
+      CUSTOMER_TYPE_ID, CUSTOMER_STATUS, PROVINCE_CODE, 
+      PROVINCE_NAME, CITY_CODE, CITY_NAME, 
+      AREA_CODE, AREA_NAME, CUSTOMER_ADDRESS, 
+      CUSTOMER_LINKMAN, LINKMAN_TEL, LINKMAN_MOBILE, 
+      LINKMAN_FAX, LINKMAN_EMAIL, CUSTOMER_IM, 
+      BILL_CYCLE_ID, BILL_CYCLE_CODE, PAYMENT_DAY, 
+      CUSTOMER_IS_ADVANCE, ADVANCE_PAYMENT, ANTECEDENT_MONEY, 
+      KINGDEE_INTERFACE, CREATE_TIME, UPDATE_TIME
+      )
+    values (#{customerId,jdbcType=NUMERIC}, #{customerCode,jdbcType=NVARCHAR}, #{customerName,jdbcType=NVARCHAR}, 
+      #{customerAid,jdbcType=NVARCHAR}, #{customerOldCode,jdbcType=NVARCHAR}, #{customerDescribe,jdbcType=NVARCHAR}, 
+      #{customerSortId,jdbcType=NUMERIC}, #{customerGradeId,jdbcType=NUMERIC}, #{customerTypeCode,jdbcType=NVARCHAR}, 
+      #{customerTypeId,jdbcType=NUMERIC}, #{customerStatus,jdbcType=NVARCHAR}, #{provinceCode,jdbcType=NVARCHAR}, 
+      #{provinceName,jdbcType=NVARCHAR}, #{cityCode,jdbcType=NVARCHAR}, #{cityName,jdbcType=NVARCHAR}, 
+      #{areaCode,jdbcType=NVARCHAR}, #{areaName,jdbcType=NVARCHAR}, #{customerAddress,jdbcType=NVARCHAR}, 
+      #{customerLinkman,jdbcType=NVARCHAR}, #{linkmanTel,jdbcType=NVARCHAR}, #{linkmanMobile,jdbcType=NVARCHAR}, 
+      #{linkmanFax,jdbcType=NVARCHAR}, #{linkmanEmail,jdbcType=NVARCHAR}, #{customerIm,jdbcType=NVARCHAR}, 
+      #{billCycleId,jdbcType=NUMERIC}, #{billCycleCode,jdbcType=NVARCHAR}, #{paymentDay,jdbcType=INTEGER}, 
+      #{customerIsAdvance,jdbcType=NVARCHAR}, #{advancePayment,jdbcType=NUMERIC}, #{antecedentMoney,jdbcType=NUMERIC}, 
+      #{kingdeeInterface,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.linuxsogood.demo.model.Customer">
+    insert into TF_SSS_CUSTOMER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        CUSTOMER_ID,
+      </if>
+      <if test="customerCode != null">
+        CUSTOMER_CODE,
+      </if>
+      <if test="customerName != null">
+        CUSTOMER_NAME,
+      </if>
+      <if test="customerAid != null">
+        CUSTOMER_AID,
+      </if>
+      <if test="customerOldCode != null">
+        CUSTOMER_OLD_CODE,
+      </if>
+      <if test="customerDescribe != null">
+        CUSTOMER_DESCRIBE,
+      </if>
+      <if test="customerSortId != null">
+        CUSTOMER_SORT_ID,
+      </if>
+      <if test="customerGradeId != null">
+        CUSTOMER_GRADE_ID,
+      </if>
+      <if test="customerTypeCode != null">
+        CUSTOMER_TYPE_CODE,
+      </if>
+      <if test="customerTypeId != null">
+        CUSTOMER_TYPE_ID,
+      </if>
+      <if test="customerStatus != null">
+        CUSTOMER_STATUS,
+      </if>
+      <if test="provinceCode != null">
+        PROVINCE_CODE,
+      </if>
+      <if test="provinceName != null">
+        PROVINCE_NAME,
+      </if>
+      <if test="cityCode != null">
+        CITY_CODE,
+      </if>
+      <if test="cityName != null">
+        CITY_NAME,
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE,
+      </if>
+      <if test="areaName != null">
+        AREA_NAME,
+      </if>
+      <if test="customerAddress != null">
+        CUSTOMER_ADDRESS,
+      </if>
+      <if test="customerLinkman != null">
+        CUSTOMER_LINKMAN,
+      </if>
+      <if test="linkmanTel != null">
+        LINKMAN_TEL,
+      </if>
+      <if test="linkmanMobile != null">
+        LINKMAN_MOBILE,
+      </if>
+      <if test="linkmanFax != null">
+        LINKMAN_FAX,
+      </if>
+      <if test="linkmanEmail != null">
+        LINKMAN_EMAIL,
+      </if>
+      <if test="customerIm != null">
+        CUSTOMER_IM,
+      </if>
+      <if test="billCycleId != null">
+        BILL_CYCLE_ID,
+      </if>
+      <if test="billCycleCode != null">
+        BILL_CYCLE_CODE,
+      </if>
+      <if test="paymentDay != null">
+        PAYMENT_DAY,
+      </if>
+      <if test="customerIsAdvance != null">
+        CUSTOMER_IS_ADVANCE,
+      </if>
+      <if test="advancePayment != null">
+        ADVANCE_PAYMENT,
+      </if>
+      <if test="antecedentMoney != null">
+        ANTECEDENT_MONEY,
+      </if>
+      <if test="kingdeeInterface != null">
+        KINGDEE_INTERFACE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        #{customerId,jdbcType=NUMERIC},
+      </if>
+      <if test="customerCode != null">
+        #{customerCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerAid != null">
+        #{customerAid,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerOldCode != null">
+        #{customerOldCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerDescribe != null">
+        #{customerDescribe,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerSortId != null">
+        #{customerSortId,jdbcType=NUMERIC},
+      </if>
+      <if test="customerGradeId != null">
+        #{customerGradeId,jdbcType=NUMERIC},
+      </if>
+      <if test="customerTypeCode != null">
+        #{customerTypeCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerTypeId != null">
+        #{customerTypeId,jdbcType=NUMERIC},
+      </if>
+      <if test="customerStatus != null">
+        #{customerStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="provinceCode != null">
+        #{provinceCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=NVARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerAddress != null">
+        #{customerAddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerLinkman != null">
+        #{customerLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="linkmanTel != null">
+        #{linkmanTel,jdbcType=NVARCHAR},
+      </if>
+      <if test="linkmanMobile != null">
+        #{linkmanMobile,jdbcType=NVARCHAR},
+      </if>
+      <if test="linkmanFax != null">
+        #{linkmanFax,jdbcType=NVARCHAR},
+      </if>
+      <if test="linkmanEmail != null">
+        #{linkmanEmail,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerIm != null">
+        #{customerIm,jdbcType=NVARCHAR},
+      </if>
+      <if test="billCycleId != null">
+        #{billCycleId,jdbcType=NUMERIC},
+      </if>
+      <if test="billCycleCode != null">
+        #{billCycleCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="paymentDay != null">
+        #{paymentDay,jdbcType=INTEGER},
+      </if>
+      <if test="customerIsAdvance != null">
+        #{customerIsAdvance,jdbcType=NVARCHAR},
+      </if>
+      <if test="advancePayment != null">
+        #{advancePayment,jdbcType=NUMERIC},
+      </if>
+      <if test="antecedentMoney != null">
+        #{antecedentMoney,jdbcType=NUMERIC},
+      </if>
+      <if test="kingdeeInterface != null">
+        #{kingdeeInterface,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.linuxsogood.demo.model.CustomerExample" resultType="java.lang.Integer">
+    select count(*) from TF_SSS_CUSTOMER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update TF_SSS_CUSTOMER
+    <set>
+      <if test="record.customerId != null">
+        CUSTOMER_ID = #{record.customerId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.customerCode != null">
+        CUSTOMER_CODE = #{record.customerCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerName != null">
+        CUSTOMER_NAME = #{record.customerName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerAid != null">
+        CUSTOMER_AID = #{record.customerAid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerOldCode != null">
+        CUSTOMER_OLD_CODE = #{record.customerOldCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerDescribe != null">
+        CUSTOMER_DESCRIBE = #{record.customerDescribe,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerSortId != null">
+        CUSTOMER_SORT_ID = #{record.customerSortId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.customerGradeId != null">
+        CUSTOMER_GRADE_ID = #{record.customerGradeId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.customerTypeCode != null">
+        CUSTOMER_TYPE_CODE = #{record.customerTypeCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerTypeId != null">
+        CUSTOMER_TYPE_ID = #{record.customerTypeId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.customerStatus != null">
+        CUSTOMER_STATUS = #{record.customerStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.provinceCode != null">
+        PROVINCE_CODE = #{record.provinceCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.provinceName != null">
+        PROVINCE_NAME = #{record.provinceName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.cityCode != null">
+        CITY_CODE = #{record.cityCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.cityName != null">
+        CITY_NAME = #{record.cityName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.areaCode != null">
+        AREA_CODE = #{record.areaCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.areaName != null">
+        AREA_NAME = #{record.areaName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerAddress != null">
+        CUSTOMER_ADDRESS = #{record.customerAddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerLinkman != null">
+        CUSTOMER_LINKMAN = #{record.customerLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.linkmanTel != null">
+        LINKMAN_TEL = #{record.linkmanTel,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.linkmanMobile != null">
+        LINKMAN_MOBILE = #{record.linkmanMobile,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.linkmanFax != null">
+        LINKMAN_FAX = #{record.linkmanFax,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.linkmanEmail != null">
+        LINKMAN_EMAIL = #{record.linkmanEmail,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.customerIm != null">
+        CUSTOMER_IM = #{record.customerIm,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.billCycleId != null">
+        BILL_CYCLE_ID = #{record.billCycleId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.billCycleCode != null">
+        BILL_CYCLE_CODE = #{record.billCycleCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.paymentDay != null">
+        PAYMENT_DAY = #{record.paymentDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerIsAdvance != null">
+        CUSTOMER_IS_ADVANCE = #{record.customerIsAdvance,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.advancePayment != null">
+        ADVANCE_PAYMENT = #{record.advancePayment,jdbcType=NUMERIC},
+      </if>
+      <if test="record.antecedentMoney != null">
+        ANTECEDENT_MONEY = #{record.antecedentMoney,jdbcType=NUMERIC},
+      </if>
+      <if test="record.kingdeeInterface != null">
+        KINGDEE_INTERFACE = #{record.kingdeeInterface,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update TF_SSS_CUSTOMER
+    set CUSTOMER_ID = #{record.customerId,jdbcType=NUMERIC},
+      CUSTOMER_CODE = #{record.customerCode,jdbcType=NVARCHAR},
+      CUSTOMER_NAME = #{record.customerName,jdbcType=NVARCHAR},
+      CUSTOMER_AID = #{record.customerAid,jdbcType=NVARCHAR},
+      CUSTOMER_OLD_CODE = #{record.customerOldCode,jdbcType=NVARCHAR},
+      CUSTOMER_DESCRIBE = #{record.customerDescribe,jdbcType=NVARCHAR},
+      CUSTOMER_SORT_ID = #{record.customerSortId,jdbcType=NUMERIC},
+      CUSTOMER_GRADE_ID = #{record.customerGradeId,jdbcType=NUMERIC},
+      CUSTOMER_TYPE_CODE = #{record.customerTypeCode,jdbcType=NVARCHAR},
+      CUSTOMER_TYPE_ID = #{record.customerTypeId,jdbcType=NUMERIC},
+      CUSTOMER_STATUS = #{record.customerStatus,jdbcType=NVARCHAR},
+      PROVINCE_CODE = #{record.provinceCode,jdbcType=NVARCHAR},
+      PROVINCE_NAME = #{record.provinceName,jdbcType=NVARCHAR},
+      CITY_CODE = #{record.cityCode,jdbcType=NVARCHAR},
+      CITY_NAME = #{record.cityName,jdbcType=NVARCHAR},
+      AREA_CODE = #{record.areaCode,jdbcType=NVARCHAR},
+      AREA_NAME = #{record.areaName,jdbcType=NVARCHAR},
+      CUSTOMER_ADDRESS = #{record.customerAddress,jdbcType=NVARCHAR},
+      CUSTOMER_LINKMAN = #{record.customerLinkman,jdbcType=NVARCHAR},
+      LINKMAN_TEL = #{record.linkmanTel,jdbcType=NVARCHAR},
+      LINKMAN_MOBILE = #{record.linkmanMobile,jdbcType=NVARCHAR},
+      LINKMAN_FAX = #{record.linkmanFax,jdbcType=NVARCHAR},
+      LINKMAN_EMAIL = #{record.linkmanEmail,jdbcType=NVARCHAR},
+      CUSTOMER_IM = #{record.customerIm,jdbcType=NVARCHAR},
+      BILL_CYCLE_ID = #{record.billCycleId,jdbcType=NUMERIC},
+      BILL_CYCLE_CODE = #{record.billCycleCode,jdbcType=NVARCHAR},
+      PAYMENT_DAY = #{record.paymentDay,jdbcType=INTEGER},
+      CUSTOMER_IS_ADVANCE = #{record.customerIsAdvance,jdbcType=NVARCHAR},
+      ADVANCE_PAYMENT = #{record.advancePayment,jdbcType=NUMERIC},
+      ANTECEDENT_MONEY = #{record.antecedentMoney,jdbcType=NUMERIC},
+      KINGDEE_INTERFACE = #{record.kingdeeInterface,jdbcType=NVARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.linuxsogood.demo.model.Customer">
+    update TF_SSS_CUSTOMER
+    <set>
+      <if test="customerCode != null">
+        CUSTOMER_CODE = #{customerCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerName != null">
+        CUSTOMER_NAME = #{customerName,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerAid != null">
+        CUSTOMER_AID = #{customerAid,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerOldCode != null">
+        CUSTOMER_OLD_CODE = #{customerOldCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerDescribe != null">
+        CUSTOMER_DESCRIBE = #{customerDescribe,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerSortId != null">
+        CUSTOMER_SORT_ID = #{customerSortId,jdbcType=NUMERIC},
+      </if>
+      <if test="customerGradeId != null">
+        CUSTOMER_GRADE_ID = #{customerGradeId,jdbcType=NUMERIC},
+      </if>
+      <if test="customerTypeCode != null">
+        CUSTOMER_TYPE_CODE = #{customerTypeCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerTypeId != null">
+        CUSTOMER_TYPE_ID = #{customerTypeId,jdbcType=NUMERIC},
+      </if>
+      <if test="customerStatus != null">
+        CUSTOMER_STATUS = #{customerStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="provinceCode != null">
+        PROVINCE_CODE = #{provinceCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="provinceName != null">
+        PROVINCE_NAME = #{provinceName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cityCode != null">
+        CITY_CODE = #{cityCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="cityName != null">
+        CITY_NAME = #{cityName,jdbcType=NVARCHAR},
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE = #{areaCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="areaName != null">
+        AREA_NAME = #{areaName,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerAddress != null">
+        CUSTOMER_ADDRESS = #{customerAddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerLinkman != null">
+        CUSTOMER_LINKMAN = #{customerLinkman,jdbcType=NVARCHAR},
+      </if>
+      <if test="linkmanTel != null">
+        LINKMAN_TEL = #{linkmanTel,jdbcType=NVARCHAR},
+      </if>
+      <if test="linkmanMobile != null">
+        LINKMAN_MOBILE = #{linkmanMobile,jdbcType=NVARCHAR},
+      </if>
+      <if test="linkmanFax != null">
+        LINKMAN_FAX = #{linkmanFax,jdbcType=NVARCHAR},
+      </if>
+      <if test="linkmanEmail != null">
+        LINKMAN_EMAIL = #{linkmanEmail,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerIm != null">
+        CUSTOMER_IM = #{customerIm,jdbcType=NVARCHAR},
+      </if>
+      <if test="billCycleId != null">
+        BILL_CYCLE_ID = #{billCycleId,jdbcType=NUMERIC},
+      </if>
+      <if test="billCycleCode != null">
+        BILL_CYCLE_CODE = #{billCycleCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="paymentDay != null">
+        PAYMENT_DAY = #{paymentDay,jdbcType=INTEGER},
+      </if>
+      <if test="customerIsAdvance != null">
+        CUSTOMER_IS_ADVANCE = #{customerIsAdvance,jdbcType=NVARCHAR},
+      </if>
+      <if test="advancePayment != null">
+        ADVANCE_PAYMENT = #{advancePayment,jdbcType=NUMERIC},
+      </if>
+      <if test="antecedentMoney != null">
+        ANTECEDENT_MONEY = #{antecedentMoney,jdbcType=NUMERIC},
+      </if>
+      <if test="kingdeeInterface != null">
+        KINGDEE_INTERFACE = #{kingdeeInterface,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CUSTOMER_ID = #{customerId,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.linuxsogood.demo.model.Customer">
+    update TF_SSS_CUSTOMER
+    set CUSTOMER_CODE = #{customerCode,jdbcType=NVARCHAR},
+      CUSTOMER_NAME = #{customerName,jdbcType=NVARCHAR},
+      CUSTOMER_AID = #{customerAid,jdbcType=NVARCHAR},
+      CUSTOMER_OLD_CODE = #{customerOldCode,jdbcType=NVARCHAR},
+      CUSTOMER_DESCRIBE = #{customerDescribe,jdbcType=NVARCHAR},
+      CUSTOMER_SORT_ID = #{customerSortId,jdbcType=NUMERIC},
+      CUSTOMER_GRADE_ID = #{customerGradeId,jdbcType=NUMERIC},
+      CUSTOMER_TYPE_CODE = #{customerTypeCode,jdbcType=NVARCHAR},
+      CUSTOMER_TYPE_ID = #{customerTypeId,jdbcType=NUMERIC},
+      CUSTOMER_STATUS = #{customerStatus,jdbcType=NVARCHAR},
+      PROVINCE_CODE = #{provinceCode,jdbcType=NVARCHAR},
+      PROVINCE_NAME = #{provinceName,jdbcType=NVARCHAR},
+      CITY_CODE = #{cityCode,jdbcType=NVARCHAR},
+      CITY_NAME = #{cityName,jdbcType=NVARCHAR},
+      AREA_CODE = #{areaCode,jdbcType=NVARCHAR},
+      AREA_NAME = #{areaName,jdbcType=NVARCHAR},
+      CUSTOMER_ADDRESS = #{customerAddress,jdbcType=NVARCHAR},
+      CUSTOMER_LINKMAN = #{customerLinkman,jdbcType=NVARCHAR},
+      LINKMAN_TEL = #{linkmanTel,jdbcType=NVARCHAR},
+      LINKMAN_MOBILE = #{linkmanMobile,jdbcType=NVARCHAR},
+      LINKMAN_FAX = #{linkmanFax,jdbcType=NVARCHAR},
+      LINKMAN_EMAIL = #{linkmanEmail,jdbcType=NVARCHAR},
+      CUSTOMER_IM = #{customerIm,jdbcType=NVARCHAR},
+      BILL_CYCLE_ID = #{billCycleId,jdbcType=NUMERIC},
+      BILL_CYCLE_CODE = #{billCycleCode,jdbcType=NVARCHAR},
+      PAYMENT_DAY = #{paymentDay,jdbcType=INTEGER},
+      CUSTOMER_IS_ADVANCE = #{customerIsAdvance,jdbcType=NVARCHAR},
+      ADVANCE_PAYMENT = #{advancePayment,jdbcType=NUMERIC},
+      ANTECEDENT_MONEY = #{antecedentMoney,jdbcType=NUMERIC},
+      KINGDEE_INTERFACE = #{kingdeeInterface,jdbcType=NVARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where CUSTOMER_ID = #{customerId,jdbcType=NUMERIC}
+  </update>
+</mapper>
